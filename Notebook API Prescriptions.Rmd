@@ -1,0 +1,150 @@
+---
+title: "R Prescriptions API"
+output: html_notebook
+
+#We fetch data for Atorvastatin prescriptions (the most prescribed statin in the West Midlands) from the 'Open Prescribing' API
+```{r}
+setwd('C:/Users/Liana17/Desktop/DATA FINAL ASSIGNMENT')
+library('jsonlite')
+atorvastatinBham <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000B0&format=json&json=&org=15E"
+jsonatorvastatinBham <- fromJSON(atorvastatinBham)
+
+atorvastatinallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000B0&format=json&json=&org="
+jsonatorvastatinallCCGs <- fromJSON(atorvastatinallCCGs)
+
+write.csv(jsonatorvastatinallCCGs, "AtorvastatinallCCGs.csv")
+
+
+```
+
+#Now we do the same with the other 4 types of statins
+
+```{r}
+simvastatinallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000Y0&format=json&json=&org="
+jsonsimvastatinallCCGs <- fromJSON(simvastatinallCCGs)
+
+write.csv(jsonsimvastatinallCCGs, "SimvastatinallCCGs.csv")
+
+fluvastatinallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000M0&format=json&json=&org="
+jsonfluvastatinallCCGs <-fromJSON(fluvastatinallCCGs)
+write.csv(jsonfluvastatinallCCGs, "fluvastatinallCCGs.csv")
+
+pravastatinallCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000X0&format=json&json=&org="
+jsonpravastatinallCCGs <-fromJSON(pravastatinallCCGs)
+write.csv(jsonpravastatinallCCGs, "pravastatinallCCGs.csv")
+
+rosuvastatinallCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0212000AA&format=json&json=&org="
+jsonrosuvastatinallCCGs <-fromJSON(rosuvastatinallCCGs)
+write.csv(jsonrosuvastatinallCCGs, "rosuvastatinallCCGs.csv")
+
+```
+
+#Now we do the same with antidepressants. First we analise sertraline, the most prescribed antidepressant in the West Midlands. 
+
+```{r}
+
+sertralineWestMidlands <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030Q0&format=json&json=&org=15E"
+jsonsertralineWestMidlands <- fromJSON(sertralineWestMidlands)
+write.csv(jsonsertralineWestMidlands, "sertralineWestMidlands.csv")
+
+
+sertralineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030Q0&format=json&json=&org"
+jsonsertralineallCCGs <- fromJSON(sertralineallCCGs)
+write.csv(jsonsertralineallCCGs, "sertralineallCCGs.csv")
+
+#Now we do the same with the other 14 antidepressants
+
+antidepressants <- c("0403030D0","0403030Z0","0704060A0","0403030X0","0403030E0","0403030L0","0403030P0","0403040AB","0403040Y0","0704020AA","0403040W0","0403040X0","0403010B0","0403010E0","0403010F0","0403010N0")
+
+
+for (i in antidepressants ){
+  print(i)
+}
+for (i in antidepressants){
+  #We store all url in an object
+  allapiurl <- print(paste("https://openprescribing.net/api/1.0/spending_by_ccg/?code=",i,"&format=json&json=&org", sep=""))
+}
+
+setwd("C:/Users/Liana17/Desktop/DATA FINAL ASSIGNMENT/comparison antidepressants")
+citalopram1allCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030D0&format=json&json=&org"
+jsoncitalopram1allCCGs <- fromJSON(citalopram1allCCGs)
+
+citalopram2allCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030Z0&format=json&json=&org"
+jsoncitalopram2allCCGs <- fromJSON(citalopram2allCCGs)
+
+allcitalopramallCCGs <- rbind(jsoncitalopram1allCCGs,jsoncitalopram2allCCGs)
+
+write.csv(allcitalopramallCCGs, "citalopramallCCGs2codes.csv")
+
+dapoxetineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0704060A0&format=json&json=&org"
+jsondapoxetineallCCGs <- fromJSON(dapoxetineallCCGs)
+write.csv(jsondapoxetineallCCGs, "dapoxetineallCCGs.csv")
+
+
+escitalopramallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030X0&format=json&json=&org"
+jsonescitalopramallCCGs <- fromJSON(escitalopramallCCGs)
+write.csv(jsonescitalopramallCCGs, "escitalopramallCCGs.csv")
+
+fluoxetineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030E0&format=json&json=&org"
+jsonfluoxetineallCCGs <- fromJSON(fluoxetineallCCGs)
+write.csv(jsonfluoxetineallCCGs,"fluoxetineallCCGs.csv")
+
+fluvoxamineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030L0&format=json&json=&org"
+jsonfluvoxamineallCCGs <- fromJSON(fluvoxamineallCCGs)
+write.csv(jsonfluvoxamineallCCGs, "fluvoxamineallCCGs.csv")
+
+paroxetineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403030P0&format=json&json=&org"
+jsonparoxetineallCCGs <-fromJSON(paroxetineallCCGs)
+write.csv(jsonparoxetineallCCGs, "paroxetineallCCGs.csv")
+
+vortioxetineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403040AB&format=json&json=&org"
+jsonvortioxetineallCCGs <-fromJSON(vortioxetineallCCGs)
+write.csv(jsonvortioxetineallCCGs,"vortioxetineallCCGs.csv")
+
+duloxetine1allCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403040Y0&format=json&json=&org"
+jsonduloxetine1allCCGs <- fromJSON(duloxetine1allCCGs)
+
+duloxetine2allCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0704020AA&format=json&json=&org"
+jsonduloxetine2allCCGs <- fromJSON(duloxetine2allCCGs)
+
+duloxetineallCCGs <- rbind(jsonduloxetine1allCCGs,jsonduloxetine2allCCGs)
+
+write.csv(duloxetineallCCGs,"duloxetineallCCGs.csv")
+
+venlafaxineallCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403040W0&format=json&json=&org"
+
+jsonvenlafaxineallCCGs <-fromJSON(venlafaxineallCCGs)
+write.csv(jsonvenlafaxineallCCGs,"venlafaxineallCCGs.csv")
+
+
+mirtazapineallCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403040X0&format=json&json=&org"
+
+jsonmirtazapineallCCGs <-fromJSON(mirtazapineallCCGs)
+write.csv(jsonmirtazapineallCCGs,"mirtazapineallCCGs.csv")
+
+amitriptyline1allCCGs <-"https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403010B0&format=json&json=&org"
+
+jsonamitriptyline1allCCGs <-fromJSON(amitriptyline1allCCGs)
+
+
+amitriptyline2allCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403010E0&format=json&json=&org"
+jsonamitriptyline2allCCGs <-fromJSON(amitriptyline2allCCGs)
+
+jsonamitriptylineallCCGs <- rbind(jsonamitriptyline1allCCGs,jsonamitriptyline2allCCGs)
+
+write.csv(jsonamitriptylineallCCGs,"amitriptylineallCCGs.csv")
+
+
+clomipramineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403010F0&format=json&json=&org"
+
+jsonclomipramineallCCGs <- fromJSON(clomipramineallCCGs)
+write.csv(jsonclomipramineallCCGs,"clomipramineallCCGs.csv")
+
+
+ imipramineallCCGs <- "https://openprescribing.net/api/1.0/spending_by_ccg/?code=0403010N0&format=json&json=&org"
+
+ jsonimipramineallCCGs <- fromJSON(imipramineallCCGs)
+ write.csv(jsonimipramineallCCGs,"imipramineallCCGs.csv")
+
+``` 
+
