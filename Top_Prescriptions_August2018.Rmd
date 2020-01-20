@@ -1,0 +1,169 @@
+---
+title: "Medicines August18"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+#First we set the working directory
+```{r}
+setwd("C:/Users/Liana17/Desktop/DATA FINAL ASSIGNMENT")
+```
+
+#Then we import the prescriptions database for August 2018 (9.674.816 obs)
+```{r}
+library('data.table')
+august18 <- fread('C:/Users/Liana17/Desktop/DATA FINAL ASSIGNMENT/August18/T201808PDPI BNFT.csv',stringsAsFactors = FALSE)
+```
+
+#Now we filter the database to obtain only West Midlands practices. I have updated the practices codes (some of them changed in 2019).
+```{r}
+library('dplyr')
+august18WestMidlands <- august18 %>%
+  filter(PRACTICE %in% c("M89017","M89003","M88004","M85046","M85063","Y02436","Y02554","Y03712","Y04249","Y02561","Y03007","Y04328","Y04992","Y01982","Y03623","Y04749","Y02434","Y02931","Y04713","Y04732","Y04791","Y04931","Y02430","Y02620","Y04565","Y04755","Y04768","Y02441","Y03653","Y04337","M85768","Y01980","Y05789","Y03002","Y04736","Y02439","Y02557","Y04904","Y03598","Y04754","Y05973","Y03421","Y05320","Y04523","Y04762","Y00738","Y02245","Y04536","Y04638","Y05949","Y04525","Y04878","Y04278","Y05241","M87639","Y03835","Y04566","Y06146","M88637","Y03358","Y06235","M88036","Y03451","Y04928","M89028","Y04277","Y05389","Y03965","Y03392","Y04441","Y04221","Y02764","Y04376","Y05853","Y05724","Y06125","Y02012","Y05373","M85805","Y02889","M85813","Y01176","Y01746","Y03331","Y02403","Y00694","Y01057","Y02961","Y03034","M85684","M85085","M85680","Y05106","Y01866","M85782","Y02704","M85142","M85064","M85094","M85730","M88629","M85732","M88635","M85801","M85153","Y02615","M83706","M85097","M88019","M85671","M88647","M85686","M85127","M91642","M88041","M85693","M85021","M85721","M81616","M85749","M85770","M85778","M88016","M88623","M85115","M85670","M85757","M85753","M88618","M85711","M85663","M89608","M85694","M83111","M84620","M88646","M85134","M88626","M85158","M85756","M85781","M85171","M85697","M88620","M85792","M85766","M87623","Y00492","M85794","M85701","M89024","M88044","M88625","M85733","M88640","M85082","M88639","M83113","M89602","M81084","Y05826","M88035","M85154","M85014","M85107","Y01068","M88610","M85008","M83705","M89030","M85098","M85779","M85118","M88628","M85105","M88026","M85055","M85739","M85676","M85735","M81617","M85174","Y04884","M85774","M91637","M85713","M88031","M85141","M89001","M88024","Y00412","M85716","M88042","M85176","M85167","M85783","M85679","M88014","M85013","M85722","M81077","M85041","M81078","M85051","M85146","Y02567","M85736","M84047","M81062","M85123","M85128","M81089","Y00471","M89021","M81055","Y03597","M83693","M81025","M85699","M85797","M85139","M85108","M85717","M83117","M85624","M85155","M87034","M91032","M85035","M81092","M85669","M88630","M89007","M85042","M85179","M85084","M88021","M88043","M85024","Y02794","M85009","M85746","M85634","Y03942","M85759","M85170","M88633","M85001","M81064","Y01756","M85803","M84060","M88008","M89013","M85642","M85156","Y02571","M85053","M85056","M85145","M85005","M89004","M85016","M88030","M85043","M85117","M89002","M84024","M89027","M85062","M85143",
+                       "M88040","M85025","M85113","M85177","M81083","M84049","M85149","M85715","M85007","M87014",
+                       "M85047","M85092","Y02701","M87001","M85074","M88619","M85029","M85078","M88002","M84002",
+                       "M81001","M81041","M81069","M85027","M85076","M85011","M85159","M89005","M85006","M85116","M85164","M85037",
+                       "M81020","M89008","M89601","M81002","M85086","M85071","M81082","M88009","M85018","M85136","M85600","M89019",
+                       "M85058","M89010","M89026","M83110","M81021","M89015","M85178","M85088","M85066","M87020","M81070","M85124",
+                       "M85706","M85081","M85023","M88020","M85031","M89012","M85087","M85110","M87602","M88015","M84006","M85077",
+                       "M85020","M88645","M85065","M83032","M85079","M88003","M85069","M81019","M85070","M85172","M85175","M83088",
+                       "M85030","M84042","M85048","M85002","M85034","M89009","M84018","M85060","M83148","M85061","M88006","M88038",
+                       "M84007","Y02893","M83062","M85033","M85026","M88018","M85019","M85028","Y00159","M81087","M85068","M85075","M85083","M85103","M85611","M85677","M85689","M85776","M87625","Y00828","Y01683","Y01981","Y02437","Y02440","Y02559","Y04281","Y04739","Y04743","Y04745","Y04758","Y04870","Y05617","Y06174","Y06176","Y06178"
+
+))
+```
+#We export the new database as a csv file
+```{r}
+write.csv(august18WestMidlands,"August18WestMidlands.csv")
+```
+#In Excel, we create a new sheet with medicines names, codes and  ITEMS amount. Then we import only that sheet. 
+```{r}
+ library(readxl)
+august18Medicineswithcode <- read_excel("August18WestMidlands.xlsx", sheet='Medicineswithcode')
+```
+#We create a 'Pivot Table' with medicine names and amount of ITEMS, so we can see the most prescribed medicines.
+```{r}
+august18Medicines_without_code <- tapply(august18Medicineswithcode$ITEMS, august18Medicineswithcode$'BNF NAME', sum)
+write.csv(august18Medicines_without_code,"august18Medicines_without_code.csv")
+```
+#To obtain the real amount of prescriptions for one medicine  we need to find and group similar presentations of the same medicine, to sum them up later. We need to use the BNF code instead of the medicine name. We will do these with the top 10. 
+
+#We create a variable with the top 10. There are 3 different codes for Aspirin and 3 for Salbutamol. 
+```{r}
+library(stringr)
+Top10August18 <- august18Medicineswithcode %>%
+  
+  filter(str_detect(`BNF CODE`, pattern="0103050P0|0212000B0|0103050L0|0407010H0|0206020A0|0601022B0|0209000A0|0407010B0|100302020|0212000Y0|0301011R0|0301040R0|0701030U0
+"))
+write.csv(Top10August18, "Top10August18.csv")
+```
+#In the Top 10 of August 2018, we sum all presentations for the same medicine to obtain medicine totals. 
+```{r}
+
+read.csv(file="Top10August18.csv")
+library('dplyr')
+library('stringr')
+
+   Omeprazole1_18total <- Top10August18 %>%
+  
+  filter(str_detect(`BNF CODE`, pattern="0103050P0")) %>%
+  summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+  
+  Atorvastatin_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0212000B0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+  
+   Lansoprazole_18total<- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0103050L0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+   
+   Paracetamol_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0407010H0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+   
+  Amlodipine_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0206020A0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+  
+  MetforminHCL_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0601022B0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+  
+ Aspirin1_18 <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0209000A0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Aspirin2_18 <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0407010B0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Aspirin3_18 <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="100302020")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Simvastatin_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0212000Y0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Salbutamol1_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0301011R0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Salbutamol2_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0301040R0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+ 
+ Salbutamol3_18total <- Top10August18 %>%
+  
+     filter(str_detect(`BNF CODE`, pattern="0701030U0")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+             
+```
+#Now we create a data frame with the Top 10 totals for 2018.
+```{r}
+ITEMS_TOTALS_18 <- bind_rows(Omeprazole1_18total,Atorvastatin_18total,Lansoprazole_18total,Paracetamol_18total, Amlodipine_18total, MetforminHCL_18total,Aspirin1_18,Aspirin2_18,Aspirin3_18,Simvastatin_18total,Salbutamol1_18total,Salbutamol2_18total,Salbutamol3_18total)
+
+MEDICINE_NAMES <- c("Omeprazole","Atorvastatin","Lansoprazole","Paracetamol", "Amlodipine", "Metformin_HCL","Aspirin1","Aspirin2","Aspirin3","Simvastatin", "Salbutamol1","Salbutamol2", "Salbutamol3")
+
+TOP10totals_2018 <- data.frame(MEDICINE_NAMES,ITEMS_TOTALS_18)
+
+write.csv(TOP10totals_2018,"TOP10totals_2018.csv")
+
+```
+#Now we sum the similar presentations of Aspirin and Salbutamol and update  'TOP10totals_2018'.
+```{r}
+
+read.csv("TOP10totals_2018.csv")
+
+Aspirin_18total <- TOP10totals_2018 %>%
+  
+     filter(str_detect(`MEDICINE_NAMES`, pattern="Aspirin")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+
+Salbutamol_18total <- TOP10totals_2018 %>%
+  
+     filter(str_detect(`MEDICINE_NAMES`, pattern="Salbutamol")) %>%
+    summarise_at(vars(`ITEMS`), sum, na.rm = FALSE)
+
+
+ITEMS_TOTALS_18 <- bind_rows(Omeprazole1_18total,Atorvastatin_18total,Lansoprazole_18total,Paracetamol_18total, Amlodipine_18total, MetforminHCL_18total,Aspirin_18total,Simvastatin_18total,Salbutamol_18total)
+
+MEDICINE_NAMES <- c("Omeprazole","Atorvastatin","Lansoprazole","Paracetamol", "Amlodipine", "Metformin_HCL","Aspirin","Simvastatin", "Salbutamol")
+
+TOP10totals_2018 <- data.frame(MEDICINE_NAMES,ITEMS_TOTALS_18)
+
+write.csv(TOP10totals_2018,"TOP10totals_2018.csv")
+
+```
